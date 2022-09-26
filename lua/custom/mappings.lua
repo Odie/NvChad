@@ -1,36 +1,38 @@
+-- A typical custom.mappings module should disable and define various
+-- keybinds/keymaps.
+--
+-- However, we don't want to configure our keymaps this way.
+-- Just build a map to remove *all* default keybinds. This lets us
+-- start from a clean slate without any keybinds.
+--
+-- For some reason NvChad just sprinkles keybinds randomly.
+-- Which-key becomes a bit useless, because there is no way to logically
+-- explore and find the keybinds you want.
+--
+-- See "custom.plugins.config.whichkey" for the actual keybinds
+--
 local M = {}
 
--- M.disabled = {
---   n = {
---     ["<C-s>"] = "",
---
---     ["<leader>n"] = "",
---     ["<leader>rn"] = "",
---     ["<leader>uu"] = "",
---     ["<leader>b"] = "",
---
---
---   }
--- }
+local function disable_default_mappings_map()
+  local merge_tb = vim.tbl_deep_extend
+  local mappings = require("core.mappings")
 
-M.general = {
-  n = {
-    ["<leader>bd"] = {
-      function()
-        require('close_buffers').delete({ type = 'this' })
-      end ,
-      "new buffer" },
+  local disabled = {}
+  for _, cmap in pairs(mappings) do
+    disabled = merge_tb("force", disabled, cmap)
+  end
 
-    ['/'] = {'<cmd>call esearch#init()<cr>', 'Search Project' },
-  },
+  for _, modemap in pairs(disabled) do
+    if(type(modemap) == "table") then
+      for keybind, _ in pairs(modemap) do
+        modemap[keybind] = ""
+      end
+    end
+  end
 
-}
+  return disabled
+end
 
-M.telescope = {
-  n = {
-    ["<C-p>"] = { "<cmd> Telescope find_files <CR>", "find files" },
-    ["<leader>bb"] = { "<cmd>Telescope buffers<cr>" , "find buffer" },
-  },
-}
+M.disabled = disable_default_mappings_map()
 
 return M

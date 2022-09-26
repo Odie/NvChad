@@ -3,7 +3,17 @@ local overrides = require "custom.plugins.overrides"
 return {
 
   -- Re-enable some default plugins
-  ["folke/which-key.nvim"] = { disable = false },
+  ["folke/which-key.nvim"] = {
+    disable = false,
+    -- loaded = true,
+    opt = false,
+    key = {},
+    config = function()
+      require "plugins.configs.whichkey"
+      require "custom.plugins.config.whichkey"
+    end,
+  },
+
   ['goolord/alpha-nvim'] = { disable = false },
 
   -- Override plugin definition options
@@ -47,7 +57,7 @@ return {
 	},
 
   ["folke/trouble.nvim"] = {
-		"folke/trouble.nvim",
+		cmd = {"TroubleToggle"},
 		requires = {"kyazdani42/nvim-web-devicons", 'folke/lsp-colors.nvim'},
 		config = function()
 			require("trouble").setup {}
@@ -112,5 +122,7 @@ return {
         }
       }
     end
-	}
+	},
+
+  ["hrsh7th/cmp-cmdline"] = { after = "cmp-buffer" },
 }

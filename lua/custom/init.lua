@@ -8,8 +8,11 @@ cmd([[
 	vnoremap : ;
 ]])
 
+local autocmd = vim.api.nvim_create_autocmd
+
 -- Remove all trailing spaces
-vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+autocmd("BufWritePre", {
+	group = vim.api.nvim_create_augroup("RemoveTrainlingSpaces", {clear = true}),
   pattern = { "*" },
   command = [[%s/\s\+$//e]],
 })
@@ -25,3 +28,10 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 	end
 })
 
+-- Load which-key and setup all the keybinds
+-- This eventually causes "customs.plugins.config.whichkey" to be loaded
+autocmd("VimEnter", {
+  callback = function()
+    require("which-key")
+  end,
+})
