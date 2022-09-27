@@ -17,64 +17,16 @@ wk.register({
   ["]b"] = {'<cmd>bnext<cr>', 'Prev buffer'},
 
   -- lsp
-  ["gD"] = {
-    function()
-      vim.lsp.buf.declaration()
-    end,
-    "lsp declaration",
-  },
+  ["gD"] = { function() vim.lsp.buf.declaration() end, "lsp declaration" },
+  ["gd"] = { function() vim.lsp.buf.definition() end, "lsp definition" },
+  ["gi"] = { function() vim.lsp.buf.implementation() end, "lsp implementation" },
+  ['gl'] = { function() vim.diagnostic.open_float({scope="line"}) end, "line diagnostics" },
+  ["gr"] = { function() vim.lsp.buf.references() end, "lsp references" },
 
-  ["gd"] = {
-    function()
-      vim.lsp.buf.definition()
-    end,
-    "lsp definition",
-  },
+  ["K"] = { function() vim.lsp.buf.hover() end, "lsp hover" },
 
-  ["K"] = {
-    function()
-      vim.lsp.buf.hover()
-    end,
-    "lsp hover",
-  },
-
-  ["gi"] = {
-    function()
-      vim.lsp.buf.implementation()
-    end,
-    "lsp implementation",
-  },
-
-
-  ["gr"] = {
-    function()
-      vim.lsp.buf.references()
-    end,
-    "lsp references",
-  },
-
-
-  ["[d"] = {
-    function()
-      vim.diagnostic.goto_prev()
-    end,
-    "prev diagnostic",
-  },
-
-  ["d]"] = {
-    function()
-      vim.diagnostic.goto_next()
-    end,
-    "next diagnostic",
-  },
-
-  -- ["<leader>q"] = {
-  --   function()
-  --     vim.diagnostic.setloclist()
-  --   end,
-  --   "diagnostic setloclist",
-  -- },
-
+  ["[d"] = { function() vim.diagnostic.goto_prev() end, "prev diagnostic" },
+  ["]d"] = { function() vim.diagnostic.goto_next() end, "next diagnostic" },
 
 }, {prefix=""})
 
