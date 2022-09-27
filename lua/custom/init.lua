@@ -1,5 +1,6 @@
 local cmd	= vim.cmd				-- execute Vim commands
 local g		= vim.g					-- global variables
+local u   = require("custom.util")
 
 g.maplocalleader = ","    -- Local leader is comma
 
@@ -10,6 +11,8 @@ cmd([[
 	vnoremap ; :
 	vnoremap : ;
 ]])
+
+u.nnoremap('<esc>', ':nohlsearch<return><esc>')
 
 local autocmd = vim.api.nvim_create_autocmd
 

@@ -28,6 +28,19 @@ wk.register({
   ["[d"] = { function() vim.diagnostic.goto_prev() end, "prev diagnostic" },
   ["]d"] = { function() vim.diagnostic.goto_next() end, "next diagnostic" },
 
+  ["n"] = {
+    [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
+    "search - next"
+  },
+
+  ["N"] = {
+    [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
+    "search - prev"
+  },
+
+  ["*"] = [[*<Cmd>lua require('hlslens').start()<CR>]],
+  ["#"] = [[#<Cmd>lua require('hlslens').start()<CR>]],
+
 }, {prefix=""})
 
 wk.register({

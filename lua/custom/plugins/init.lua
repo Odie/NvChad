@@ -184,4 +184,13 @@ return {
 		end
 
   },
+
+  ['kevinhwang91/nvim-hlslens'] = {
+    module = "hlslens",
+    config = function()
+      require('hlslens').setup({
+        nearest_only = true,
+      })
+    end
+  }
 }
