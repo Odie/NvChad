@@ -192,5 +192,12 @@ return {
         nearest_only = true,
       })
     end
-  }
+  },
+
+  ['nvim-telescope/telescope-fzy-native.nvim'] = {
+    after = "telescope.nvim",
+    config = function()
+      require('telescope').load_extension('fzy_native')
+    end
+  },
 }
