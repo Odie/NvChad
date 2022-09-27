@@ -76,26 +76,6 @@ wk.register({
   -- },
 
 
-  ["<leader>wa"] = {
-    function()
-      vim.lsp.buf.add_workspace_folder()
-    end,
-    "add workspace folder",
-  },
-
-  ["<leader>wr"] = {
-    function()
-      vim.lsp.buf.remove_workspace_folder()
-    end,
-    "remove workspace folder",
-  },
-
-  ["<leader>wl"] = {
-    function()
-      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-    end,
-    "list workspace folders",
-  },
 }, {prefix=""})
 
 wk.register({
@@ -173,6 +153,13 @@ wk.register({
     D = { function() vim.lsp.buf.type_definition() end, "Type definition" },
     f = { function() vim.lsp.buf.formatting {} end, "lsp formatting" },
     s = { function() vim.lsp.buf.signature_help() end, "Signature help" },
+
+    w = {
+      name = "workspace",
+      a = { function() vim.lsp.buf.add_workspace_folder() end, "add workspace folder" },
+      r = { function() vim.lsp.buf.remove_workspace_folder() end, "remove workspace folder" },
+      l = { function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, "list workspace folders" },
+    }
   },
 
   t = {
@@ -198,7 +185,7 @@ wk.register({
 
   w = {
     name = "window",
-    n = {"<C-w><C-w>", "next"}
+    n = {"<C-w><C-w>", "window next"}
   }
 
 }, { prefix = "<leader>" })

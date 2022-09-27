@@ -1,4 +1,7 @@
 local cmd	= vim.cmd				-- execute Vim commands
+local g		= vim.g					-- global variables
+
+g.maplocalleader = ","    -- Local leader is comma
 
 -- Use ; to enter ex command mode
 cmd([[
