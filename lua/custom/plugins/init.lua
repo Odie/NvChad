@@ -73,6 +73,7 @@ return {
   },
 
   ['kazhala/close-buffers.nvim'] = {
+    module="close_buffers",
     config = function()
       require('close_buffers').setup({
         preserve_window_layout = { 'this' , 'nameless'},
@@ -141,6 +142,7 @@ return {
   },
 
  ["hkupty/iron.nvim"] = {
+    module = {"iron", "iron.core"},
 		config = function()
       require("iron.core").setup {
         config = {
@@ -182,7 +184,6 @@ return {
         }
 			}
 		end
-
   },
 
   ['kevinhwang91/nvim-hlslens'] = {
