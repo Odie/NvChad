@@ -201,4 +201,11 @@ return {
       require('telescope').load_extension('fzy_native')
     end
   },
+
+  ['ggandor/leap.nvim'] = {
+    keys = "s",
+    config = function()
+      require('leap').set_default_keymaps()
+    end
+  }
 }
