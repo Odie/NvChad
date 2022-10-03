@@ -207,5 +207,15 @@ return {
     config = function()
       require('leap').set_default_keymaps()
     end
+  },
+
+  ['andymass/vim-matchup'] = {},
+
+  ['nvim-treesitter/nvim-treesitter-context'] = {
+    after = "nvim-treesitter",
+    config = function()
+      require('treesitter-context').setup{enable = true}
+    end
   }
+
 }
