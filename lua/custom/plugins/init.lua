@@ -56,6 +56,10 @@ return {
 		end
 	},
 
+  ["tpope/vim-fugitive"] = {
+		cmd = {"Git", "Gdiffsplit", "GBrowse"},
+	},
+
   ["folke/trouble.nvim"] = {
 		cmd = {"TroubleToggle"},
 		requires = {"kyazdani42/nvim-web-devicons", 'folke/lsp-colors.nvim'},
@@ -215,6 +219,22 @@ return {
     after = "nvim-treesitter",
     config = function()
       require('treesitter-context').setup{enable = true}
+    end
+  },
+
+  ['cbochs/grapple.nvim'] = {
+    requires = { "nvim-lua/plenary.nvim" },
+    module = "grapple",
+  },
+
+  ['shortcuts/no-neck-pain.nvim'] = {
+    tag = "*"
+  },
+
+  ['kylechui/nvim-surround'] = {
+    tag = "*",
+    config = function()
+      require("nvim-surround").setup({})
     end
   }
 

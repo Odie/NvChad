@@ -2,7 +2,7 @@ local M = {}
 
 M.ui = {
   theme_toggle = { "gruvbox_material", "onedark"},
-  theme = "gruvbox_material",
+  theme = "onedark",
 }
 
 M.plugins = require "custom.plugins"

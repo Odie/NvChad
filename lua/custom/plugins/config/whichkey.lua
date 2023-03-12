@@ -1,5 +1,65 @@
 local wk = require("which-key")
 
+local function grapple_toggle()
+  local grapple = require("grapple")
+
+  if grapple.exists() then
+    grapple.untag()
+    print("File untagged")
+  else
+    grapple.tag()
+    print("File tagged")
+  end
+
+end
+
+-- Jump the the 2nd to last most recently used and listed buffer
+local function jump_to_last_buffer()
+  local api = vim.api
+
+  -- Grab a list of all buffers
+  local buffers = vim.fn.getbufinfo({buflisted=1})
+  if #buffers < 2 then
+    print("No buffers to jump to")
+    return
+  end
+
+  -- Sort by last used time
+  table.sort(buffers, function(a, b)
+    return a.lastused > b.lastused
+  end)
+
+  -- Switch to the previous buffer used
+  api.nvim_win_set_buf(0, buffers[2].bufnr)
+end
+
+local function buffer_delete_other()
+  local curBufnr = vim.fn.bufnr()
+
+  local buffers = vim.fn.getbufinfo({buflisted=1})
+  for _, buf in ipairs(buffers) do
+    local nr = buf['bufnr']
+    if nr ~= curBufnr then
+      vim.api.nvim_buf_delete(nr, {})
+    end
+  end
+end
+
+local function git_root()
+  return vim.fn.system("git rev-parse --show-toplevel")
+end
+
+local function git_repo_relative_filepath(filepath)
+  local root = git_root()
+  print("root: ", root)
+  print(#root)
+  if not root then
+    return filepath
+  end
+
+  return string.sub(filepath, #root)
+end
+
 wk.register({
   -- switch between windows
   ["<C-h>"] = { "<C-w>h", "window left" },
@@ -12,6 +72,7 @@ wk.register({
 
   ["<C-n>"] = { "<cmd> NvimTreeToggle <CR>", "File tree" },
   ["<C-p>"] = { "<cmd> Telescope find_files <CR>", "Find File"},
+  ["<C-[>"] = { "<cmd> Telescope find_files <CR>", "Find File"},
 
   ["[b"] = {'<cmd>bprev<cr>', 'Next buffer'},
   ["]b"] = {'<cmd>bnext<cr>', 'Prev buffer'},
@@ -45,19 +106,37 @@ wk.register({
 
 wk.register({
 
+  a = {function() git_root() end, "run test"},
   ['/'] = { '<cmd> call esearch#init() <CR>', 'Search Project' },
 
-  ['<TAB>'] = { '<c-^>','Last Buffer' },
+  ['<TAB>'] = { function() jump_to_last_buffer() end, 'Last Buffer' },
+
+  ['<SPACE>'] = {
+
+    ['1'] = { function() require('grapple').select({ key = 1 }) end, "Grapple file 1" },
+    ['2'] = { function() require('grapple').select({ key = 2 }) end, "Grapple file 2" },
+    ['3'] = { function() require('grapple').select({ key = 3 }) end, "Grapple file 3" },
+    ['4'] = { function() require('grapple').select({ key = 4 }) end, "Grapple file 4" },
+
+    g = { function() require('grapple').popup_tags() end, "Grapple menu"},
+    t = { function() grapple_toggle() end, "Grapple Toggle" },
+    ['<TAB>'] = { function() require('grapple').cycle_backward() end, "Grapple backwards"},
+    ['\\'] = { function() require('grapple').cycle_forward() end, "Grapple forward"},
+  },
 
   b = {
     name = "buffer",
     b = { '<cmd>Telescope buffers<cr>', 'Buffers' },
 
     d = { function() require('close_buffers').delete({ type = 'this' }) end, 'Delete Buffer' },
+    D = { function() buffer_delete_other() end, "Delete other buffers" },
 
     -- D = {'<cmd>BufferClose!<cr>', 'Delete Buffer (force)'},
     p = { '<cmd>bprev<cr>', 'Next buffer' },
     n = { '<cmd>bnext<cr>', 'Prev buffer' },
+
+    m = { function() require('grapple').popup_tags() end, "Grapple menu"},
+    t = { function() grapple_toggle() end, "Grapple Toggle" },
   },
 
   d = {
@@ -87,7 +166,8 @@ wk.register({
     -- t = {'<cmd>NvimTreeToggle<cr>', 'File tree'},
     t = { '<cmd>NvimTreeFindFile<cr>', 'File tree' },
     -- t = {'<cmd>NvimTreeFindFileToggle<cr>', 'File tree'},
-    n = { ":echo expand('%:p')<cr>", "Show filename" }
+    -- n = { ":echo expand('%:p')<cr>", "Show filename" }
+    n = { function() print(git_repo_relative_filepath(vim.fn.expand('%:p'))) end, "Show filename" }
   },
 
   g = {
@@ -125,6 +205,11 @@ wk.register({
       r = { function() vim.lsp.buf.remove_workspace_folder() end, "remove workspace folder" },
       l = { function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, "list workspace folders" },
     }
+  },
+
+  p = {
+    name = "pick (telescope)",
+    s = { function() require'telescope.builtin'.lsp_dynamic_workspace_symbols{} end, "Find workspace symbol"},
   },
 
   t = {
