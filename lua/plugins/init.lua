@@ -190,7 +190,11 @@ local default_plugins = {
 
   {
     "numToStr/Comment.nvim",
-    -- keys = { "gc", "gb" },
+    keys = {
+      {"gc", mode = "n"},
+      {"gc", mode = "v"},
+      {"gb", mode = "n"},
+    },
     init = require("core.utils").load_mappings "comment",
     config = function()
       require("Comment").setup()
@@ -200,7 +204,7 @@ local default_plugins = {
   -- file managing , picker etc
   {
     "nvim-tree/nvim-tree.lua",
-    cmd = { "NvimTreeToggle", "NvimTreeFocus" },
+    cmd = { "NvimTreeToggle", "NvimTreeFocus", "NvimTreeFindFile" },
     init = require("core.utils").load_mappings "nvimtree",
     opts = function()
       return require "plugins.configs.nvimtree"
