@@ -98,11 +98,20 @@ local plugins = {
 	},
 
   {
-		'airblade/vim-rooter',
+    'notjedi/nvim-rooter.lua',
     lazy = false,
 		config = function()
-			vim.g.rooter_silent_chdir = 1
-			vim.g.rooter_resolve_links = 1
+			-- vim.g.rooter_silent_chdir = 1
+			-- vim.g.rooter_resolve_links = 1
+   --    vim.g.rooter_patterns.insert("pyproject.toml")
+      require'nvim-rooter'.setup({
+        rooter_patterns = { '.git', '.hg', '.svn', 'package.json', 'pyproject.toml'},
+        update_cwd = true,
+        update_focused_file = {
+          enable = true,
+          update_cwd = true
+        },
+      })
 		end
   },
 
