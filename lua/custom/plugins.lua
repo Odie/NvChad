@@ -95,7 +95,7 @@ local plugins = {
     enabled = true,
     lazy = false,
     config = function()
-      require "plugins.configs.whichkey"
+      -- require "plugins.configs.whichkey"
       require "custom.configs.whichkey"
     end,
   },
