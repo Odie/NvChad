@@ -3,8 +3,18 @@ local overrides = require("custom.configs.overrides")
 ---@type NvPluginSpec[]
 local plugins = {
 
-  -- Override plugin definition options
+  -- Themes
+  {'navarasu/onedark.nvim'},
+  {
+    'sainnhe/gruvbox-material',
+    lazy = false,
+    config = function()
+      -- require("catppuccin").setup({})
+      vim.cmd.colorscheme "gruvbox-material"
+    end,
+  },
 
+  -- Override plugin definition options
   {
     "neovim/nvim-lspconfig",
     dependencies = {
@@ -29,8 +39,24 @@ local plugins = {
   },
 
   {
+    "williamboman/mason-lspconfig.nvim",
+    config = function()
+      require("mason-lspconfig").setup()
+    end,
+  },
+
+  {
     "nvim-treesitter/nvim-treesitter",
     opts = overrides.treesitter,
+    config = function()
+      require'nvim-treesitter.configs'.setup {
+        matchup = {
+          enable = true,              -- mandatory, false will disable the whole extension
+          disable = { "c", "ruby" },  -- optional, list of language that will be disabled
+          -- [options]
+        },
+      }
+    end
   },
 
   {
@@ -101,9 +127,6 @@ local plugins = {
     'notjedi/nvim-rooter.lua',
     lazy = false,
 		config = function()
-			-- vim.g.rooter_silent_chdir = 1
-			-- vim.g.rooter_resolve_links = 1
-   --    vim.g.rooter_patterns.insert("pyproject.toml")
       require'nvim-rooter'.setup({
         rooter_patterns = { '.git', '.hg', '.svn', 'package.json', 'pyproject.toml'},
         update_cwd = true,
@@ -111,6 +134,8 @@ local plugins = {
           enable = true,
           update_cwd = true
         },
+        -- trigger_patterns = { '*' },
+        -- manual = false,
       })
 		end
   },
@@ -254,10 +279,14 @@ local plugins = {
     end
   },
 
-  { 'andymass/vim-matchup' },
+  {
+    'andymass/vim-matchup',
+    event = "VeryLazy",
+  },
 
   {
     'nvim-treesitter/nvim-treesitter-context',
+    event = "VeryLazy",
     config = function()
       require('treesitter-context').setup{enable = true}
     end
@@ -276,11 +305,27 @@ local plugins = {
   {
     'kylechui/nvim-surround',
     version = '*',
+    event = "VeryLazy",
     config = function()
       require("nvim-surround").setup({})
     end
-  }
+  },
 
+  {
+    "tpope/vim-eunuch",
+    cmd = {"Move", "Remove", "Delete", "Move", "Chmod",
+           "Mkdir", "Cfind", "Clocate", "Lfind", "Llocate", "Wall",
+           "SudoWrite", "SudoEdit"}
+  },
+  {
+    'stevearc/aerial.nvim',
+    event = "VeryLazy",
+    opts = {},
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-tree/nvim-web-devicons"
+    },
+  }
 
 }
 
