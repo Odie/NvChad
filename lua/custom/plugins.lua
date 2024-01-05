@@ -48,15 +48,6 @@ local plugins = {
   {
     "nvim-treesitter/nvim-treesitter",
     opts = overrides.treesitter,
-    config = function()
-      require'nvim-treesitter.configs'.setup {
-        matchup = {
-          enable = true,              -- mandatory, false will disable the whole extension
-          disable = { "c", "ruby" },  -- optional, list of language that will be disabled
-          -- [options]
-        },
-      }
-    end
   },
 
   {
