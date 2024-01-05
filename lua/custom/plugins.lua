@@ -3,17 +3,6 @@ local overrides = require("custom.configs.overrides")
 ---@type NvPluginSpec[]
 local plugins = {
 
-  -- Themes
-  {'navarasu/onedark.nvim'},
-  {
-    'sainnhe/gruvbox-material',
-    lazy = false,
-    config = function()
-      -- require("catppuccin").setup({})
-      vim.cmd.colorscheme "gruvbox-material"
-    end,
-  },
-
   -- Override plugin definition options
   {
     "neovim/nvim-lspconfig",
