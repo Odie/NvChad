@@ -190,7 +190,7 @@ wk.register({
     name = "lsp",
     a = {
       name = "action",
-      r = { function() require("nvchad_ui.renamer").open() end, "Rename" },
+      r = { function() require("nvchad.renamer").open() end, "Rename" },
       a = { function() vim.lsp.buf.code_action() end, "Code action" },
     },
     d = { function() vim.diagnostic.open_float() end, "diagnostic window" },
